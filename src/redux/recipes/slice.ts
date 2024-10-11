@@ -1,11 +1,17 @@
 import { Id } from "./../../../node_modules/@reduxjs/toolkit/src/query/tsHelpers";
 import { createSlice } from "@reduxjs/toolkit";
-import { getCategories, getRecipes } from "./operations";
+import {
+  getCategories,
+  getFilterCategoric,
+  getRecipeById,
+  getRecipes,
+} from "./operations";
 
 const initialState = {
   recipes: [],
   favoritesRecipes: [],
   categories: [],
+  recipe: null,
 };
 
 const slice = createSlice({
@@ -14,9 +20,11 @@ const slice = createSlice({
   reducers: {
     toggleFavorite(state, action) {
       const recipe = action.payload;
-      if (state.favoritesRecipes.some((item) => item.id === recipe.id)) {
+      if (
+        state.favoritesRecipes.some((item) => item.idMeal === recipe.idMeal)
+      ) {
         state.favoritesRecipes = state.favoritesRecipes.filter(
-          (item) => item.id !== recipe.Id
+          (item) => item.idMeal !== recipe.idMeal
         );
       } else {
         state.favoritesRecipes.push(recipe);
@@ -30,8 +38,15 @@ const slice = createSlice({
       })
       .addCase(getCategories.fulfilled, (state, action) => {
         state.categories = action.payload;
+      })
+      .addCase(getFilterCategoric.fulfilled, (state, action) => {
+        state.recipes = action.payload;
+      })
+      .addCase(getRecipeById.fulfilled, (state, action) => {
+        state.recipe = action.payload;
       });
   },
 });
 
 export const recipesReducer = slice.reducer;
+export const { toggleFavorite } = slice.actions;

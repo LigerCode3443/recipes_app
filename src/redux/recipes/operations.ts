@@ -37,14 +37,30 @@ export const getCategories = createAsyncThunk(
   }
 );
 
-// www.themealdb.com/api/json/v1/1/filter.php?c=Seafood
 export const getFilterCategoric = createAsyncThunk(
   "get/filter/categoric",
   async (query, thunkApi) => {
     try {
       const { data } = await recipesApi.get(`filter.php?c=${query}`);
-      console.log(data);
-      return data;
+      console.log(data.meals);
+      return data.meals;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return thunkApi.rejectWithValue(error.message);
+      }
+      toast.error("Failed request");
+      return thunkApi.rejectWithValue("Failed request");
+    }
+  }
+);
+
+export const getRecipeById = createAsyncThunk(
+  "get/recipe/id",
+  async (id, thunkApi) => {
+    try {
+      const { data } = await recipesApi.get(`lookup.php?i=${id}`);
+
+      return data.meals[0];
     } catch (error) {
       if (error instanceof AxiosError) {
         return thunkApi.rejectWithValue(error.message);

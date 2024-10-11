@@ -15,7 +15,7 @@ const persistConfig = {
   key: "favorites",
   version: 1,
   storage,
-  whitelist: ["favorites"],
+  whitelist: ["favoritesRecipes", "recipe"],
 };
 
 const persistedReducer = persistReducer(persistConfig, recipesReducer);

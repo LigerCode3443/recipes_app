@@ -1,24 +1,33 @@
-import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { getRecipes } from "../../redux/recipes/operations";
 
 const SearchBar = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const dispatch = useDispatch();
+  const [query, setQuery] = useState("");
 
-  const onSubmit = (data) => {
-    console.log(data.query);
-    reset();
-  };
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (query) {
+        dispatch(getRecipes(query));
+      }
+    }, 1000);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [query, dispatch]);
 
   return (
     <div className="p-5 flex justify-center items-center">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          type="text"
-          {...register("query")}
-          placeholder="Search..."
-          className="rounded-lg p-2 border-blue-900 border-2"
-        />
-      </form>
+      <input
+        type="text"
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search..."
+        className="rounded-lg p-2 border-blue-900 border-2"
+      />
     </div>
   );
 };
+
 export default SearchBar;
