@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RecipesCard from "../RecipesCard/RecipesCard";
 
 const RecipesList = ({ recipes }) => {
@@ -8,6 +8,10 @@ const RecipesList = ({ recipes }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentData = recipes?.slice(indexOfFirstItem, indexOfLastItem);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [recipes]);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);

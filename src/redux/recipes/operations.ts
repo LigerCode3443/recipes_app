@@ -42,7 +42,7 @@ export const getFilterCategoric = createAsyncThunk(
   async (query, thunkApi) => {
     try {
       const { data } = await recipesApi.get(`filter.php?c=${query}`);
-      console.log(data.meals);
+
       return data.meals;
     } catch (error) {
       if (error instanceof AxiosError) {
