@@ -10,6 +10,7 @@ const SearchBar = () => {
     const handler = setTimeout(() => {
       if (query) {
         dispatch(getRecipes(query));
+        setQuery("");
       }
     }, 1000);
 
@@ -21,6 +22,7 @@ const SearchBar = () => {
   return (
     <div className="p-5 flex justify-center items-center">
       <input
+        value={query}
         type="text"
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search..."

@@ -30,23 +30,27 @@ const RecipesList = ({ recipes }) => {
         )}
       </ul>
       <nav>
-        <ul className="flex gap-2 p-5">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <li key={index}>
-              <button
-                onClick={() => paginate(index + 1)}
-                className={`px-4 py-2 border-2 border-solid rounded-lg 
+        {totalPages > 1 ? (
+          <ul className="flex gap-2 p-5">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => paginate(index + 1)}
+                  className={`px-4 py-2 border-2 border-solid rounded-lg 
           ${
             currentPage === index + 1
               ? "border-green-500 bg-green-500 text-white"
               : "border-gray-700 bg-white text-gray-700"
           }`}
-              >
-                {index + 1}
-              </button>
-            </li>
-          ))}
-        </ul>
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          ""
+        )}
       </nav>
     </>
   );

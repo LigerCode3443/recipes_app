@@ -26,7 +26,7 @@ const infoRecipe = () => {
       <img
         src={recipe.strMealThumb}
         alt={recipe.strMeal}
-        className="w-1/2 rounded-lg"
+        className="w-1/2 object-contain rounded-lg"
       />
       <div className="flex flex-col gap-5">
         <h2 className="text-center text-2xl font-bold">{recipe.strMeal}</h2>
