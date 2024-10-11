@@ -30,7 +30,7 @@ const RecipesCard = ({ recipe }) => {
             ? "rgb(74 222 128)"
             : "black"
         }
-        className="absolute top-4 right-4"
+        className="absolute top-4 right-4 hover:opacity-55 cursor-pointer"
         onClick={() => {
           dispatch(toggleFavorite(recipe));
         }}
