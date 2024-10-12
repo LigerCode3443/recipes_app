@@ -4,6 +4,7 @@ import {
   getCategories,
   getFilterCategoric,
   getRecipeById,
+  getRecipeByIdFavorites,
   getRecipes,
 } from "./operations";
 
@@ -12,6 +13,7 @@ const initialState = {
   favoritesRecipes: [],
   categories: [],
   recipe: null,
+  fullRecipesFavorites: [],
 };
 
 const slice = createSlice({
@@ -30,6 +32,9 @@ const slice = createSlice({
         state.favoritesRecipes.push(recipe);
       }
     },
+    clearFullRecipes(state) {
+      state.fullRecipesFavorites = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -44,9 +49,12 @@ const slice = createSlice({
       })
       .addCase(getRecipeById.fulfilled, (state, action) => {
         state.recipe = action.payload;
+      })
+      .addCase(getRecipeByIdFavorites.fulfilled, (state, action) => {
+        state.fullRecipesFavorites.push(action.payload);
       });
   },
 });
 
 export const recipesReducer = slice.reducer;
-export const { toggleFavorite } = slice.actions;
+export const { toggleFavorite, clearFullRecipes } = slice.actions;

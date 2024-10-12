@@ -70,3 +70,19 @@ export const getRecipeById = createAsyncThunk(
     }
   }
 );
+export const getRecipeByIdFavorites = createAsyncThunk(
+  "get/recipe/favorites/id",
+  async (id, thunkApi) => {
+    try {
+      const { data } = await recipesApi.get(`lookup.php?i=${id}`);
+
+      return data.meals[0];
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return thunkApi.rejectWithValue(error.message);
+      }
+      toast.error("Failed request");
+      return thunkApi.rejectWithValue("Failed request");
+    }
+  }
+);

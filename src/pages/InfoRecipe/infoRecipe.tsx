@@ -1,25 +1,10 @@
 import { useSelector } from "react-redux";
 import { selectRecipe } from "../../redux/recipes/selectors";
+import { objKey } from "../../helpers/arr";
 
 const infoRecipe = () => {
   const recipe = useSelector(selectRecipe);
-
-  const ingredientValues = [];
-  const summaryValues = [];
-  if (recipe === null) {
-    return;
-  } else {
-    Object.keys(recipe).forEach((key) => {
-      if (key.startsWith("strIngredient") && recipe[key]) {
-        ingredientValues.push(recipe[key]);
-      }
-    });
-    Object.keys(recipe).forEach((key) => {
-      if (key.startsWith("strMeasure") && recipe[key].trim()) {
-        summaryValues.push(recipe[key]);
-      }
-    });
-  }
+  const result = objKey(recipe);
 
   return (
     <div className="flex gap-10 p-5">
@@ -32,13 +17,13 @@ const infoRecipe = () => {
         <h2 className="text-center text-2xl font-bold">{recipe.strMeal}</h2>
         <div className="flex gap-2">
           <div>
-            {ingredientValues.map((value, i) => (
-              <p key={i}>{value}:</p>
+            {result.map((value, i) => (
+              <p key={i}>{Object.keys(value)}:</p>
             ))}
           </div>
           <div>
-            {summaryValues.map((item, i) => (
-              <p key={i}>{item}</p>
+            {result.map((item, i) => (
+              <p key={i}>{Object.values(item)}</p>
             ))}
           </div>
         </div>

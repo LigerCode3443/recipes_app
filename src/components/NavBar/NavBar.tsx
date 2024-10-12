@@ -1,16 +1,31 @@
 import clsx from "clsx";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import { selectFavoritesRecipes } from "../../redux/recipes/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useLocation } from "react-router-dom";
+import {
+  selectFavoritesRecipes,
+  selectFullRecipe,
+} from "../../redux/recipes/selectors";
+import { getRecipeByIdFavorites } from "../../redux/recipes/operations";
+import { clearFullRecipes } from "../../redux/recipes/slice";
 const buildLinkClass = ({ isActive }) => {
   return clsx(isActive && "text-green-500");
 };
 const NavBar = () => {
   const favorites = useSelector(selectFavoritesRecipes);
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const handleProduct = (favorites) => {
+    dispatch(clearFullRecipes());
+    favorites?.map((recipe) => {
+      dispatch(getRecipeByIdFavorites(recipe.idMeal));
+    });
+  };
+
   return (
-    <header>
+    <header className="flex justify-between items-center">
       <nav>
-        <ul className="flex flex-row-reverse p-8 gap-5 text-2xl font-bold ">
+        <ul className="flex flex-row p-8 gap-5 text-2xl font-bold ">
           <li>
             <NavLink to="/" className={buildLinkClass}>
               RECIPES
@@ -30,6 +45,18 @@ const NavBar = () => {
           )}
         </ul>
       </nav>
+      {location.pathname === "/favorites" && favorites.length > 1 ? (
+        <button
+          className="p-3 px-10 bg-green-500 mr-8 text-lg font-bold rounded-md hover:bg-green-400 hover:text-white"
+          onClick={() => {
+            handleProduct(favorites);
+          }}
+        >
+          To unite
+        </button>
+      ) : (
+        ""
+      )}
     </header>
   );
 };
