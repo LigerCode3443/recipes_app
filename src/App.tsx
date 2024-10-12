@@ -10,8 +10,9 @@ import { getRecipes } from "./redux/recipes/operations";
 
 function App() {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getRecipes("a"));
+    dispatch(getRecipes(""));
   }, [dispatch]);
   return (
     <>

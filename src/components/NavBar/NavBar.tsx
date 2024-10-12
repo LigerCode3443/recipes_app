@@ -7,6 +7,7 @@ import {
 } from "../../redux/recipes/selectors";
 import { getRecipeByIdFavorites } from "../../redux/recipes/operations";
 import { clearFullRecipes } from "../../redux/recipes/slice";
+
 const buildLinkClass = ({ isActive }) => {
   return clsx(isActive && "text-green-500");
 };

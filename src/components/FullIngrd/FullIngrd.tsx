@@ -1,21 +1,28 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectFullRecipe } from "../../redux/recipes/selectors";
 import { objKey, mergeObjectsFromArray } from "../../helpers/arr";
+import { clearFullRecipes } from "../../redux/recipes/slice";
+import { useRef } from "react";
 
 const FullIngrd = () => {
   const full = useSelector(selectFullRecipe);
-
+  const sectionRef = useRef();
   const dispatch = useDispatch();
   const finishResult = full.flatMap((item) => {
     const result = objKey(item);
 
     return result;
   });
-
   const result = mergeObjectsFromArray(finishResult);
+  if (full.length) {
+    sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
-  return (
-    <div className="mt-20 shadow-2xl w-full h-1/4 p-5 rounded-xl">
+  return full.length ? (
+    <div
+      className="mt-20 shadow-2xl w-full h-1/4 p-5 rounded-xl"
+      ref={sectionRef}
+    >
       <div className="relative">
         <div>
           <h2 className="text-center font-mono text-2xl">
@@ -27,7 +34,14 @@ const FullIngrd = () => {
             ))}
           </div>
         </div>
-        <button className="p-3 px-10 bg-green-500  text-lg font-bold rounded-md hover:bg-green-400 hover:text-white absolute top-0 right-0">
+
+        <button
+          className="p-3 px-10 bg-green-500  text-lg font-bold rounded-md hover:bg-green-400 
+        hover:text-white absolute top-0 right-0"
+          onClick={() => {
+            dispatch(clearFullRecipes());
+          }}
+        >
           Clear
         </button>
       </div>
@@ -40,6 +54,8 @@ const FullIngrd = () => {
         ))}
       </div>
     </div>
+  ) : (
+    ""
   );
 };
 export default FullIngrd;
