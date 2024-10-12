@@ -5,6 +5,12 @@ import { objKey } from "../../helpers/arr";
 const infoRecipe = () => {
   const recipe = useSelector(selectRecipe);
   const result = objKey(recipe);
+  console.log(recipe.strYoutube);
+  function convertToEmbedUrl(youtubeUrl) {
+    const url = new URL(youtubeUrl);
+    const videoId = url.searchParams.get("v");
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
 
   return (
     <div className="flex gap-10 p-5">
@@ -31,20 +37,23 @@ const infoRecipe = () => {
           <p className="text-center text-lg">Instructions</p>
           <p className="text-sm">{recipe.strInstructions}</p>
         </div>
-        <div className="flex gap-5">
-          <p className="p-2 rounded-md bg-yellow-700 text-white font-bold ">
-            Region: {recipe.strArea}
-          </p>
-          <p className="p-2 rounded-md bg-green-800 text-white font-bold ">
-            Categoric: {recipe.strCategory}
-          </p>
-          <a
-            href={recipe.strYoutube}
-            target="blank"
-            className="p-2 rounded-md bg-red-600 text-white font-bold cursor-pointer hover:bg-red-500"
-          >
-            Video
-          </a>
+        <div className="flex flex-col gap-5">
+          <div className="flex gap-5">
+            <p className="p-2 rounded-md bg-yellow-700 text-white font-bold ">
+              Region: {recipe.strArea}
+            </p>
+            <p className="p-2 rounded-md bg-green-800 text-white font-bold ">
+              Categoric: {recipe.strCategory}
+            </p>
+          </div>
+
+          <iframe
+            src={convertToEmbedUrl(recipe.strYoutube)}
+            width="560"
+            height="315"
+            title="YouTube Video"
+            allowFullScreen
+          ></iframe>
         </div>
       </div>
     </div>
